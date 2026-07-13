@@ -24,14 +24,6 @@
     "text": "I hate how these threads always devolve in insane discussions about why not using threads is better, while most real world people who have tried to do real world speeding up of Python code realize how amazing it would be to have proper threads with shared memory instead of the processes that have so many limitations, like forcing to pickle objects back and forth, &amp; fork so often just not working in the cloud setting, &amp; spawn being so slow in a lot of applications. The usage of processes is just much heavier and less straightforward."
   },
   {
-    "id": 44004601,
-    "type": "comment",
-    "by": "pjmlp",
-    "time": 1747398438,
-    "parent": 44003445,
-    "text": "On the other news, Microsoft dumped the whole faster Python team, apparently the 2025 earnings weren&#x27;t enough to keep the team around.<p><a href=\"https:&#x2F;&#x2F;www.linkedin.com&#x2F;posts&#x2F;mdboom_its-been-a-tough-couple-of-days-microsofts-activity-7328583333536268289-p4Lp&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;www.linkedin.com&#x2F;posts&#x2F;mdboom_its-been-a-tough-coupl...</a><p>Lets see whatever performance improvements still land on CPython, unless other company sponsors the work.<p>I guess Facebook (no need to correct me on the name) is still sponsoring part of it."
-  },
-  {
     "id": 44004437,
     "type": "comment",
     "by": "heybrendan",
@@ -54,22 +46,6 @@
     "time": 1747403041,
     "parent": 44003445,
     "text": "Hey, I&#x27;ve been developing professionally with Python for 20 years, so wanted to weigh in:<p>Decent threading is awesome news, but it only affects a small minority of use cases. Threads are only strictly necessary when it&#x27;s prohibitive to message pass. The Python ecosystem these days includes a playbook solution for literally any such case. Considering the multiple major pitfalls of threads (i.e., locking), they are likely to become a thing useful only in specific libraries&#x2F;domains and not as a general.<p>Additionally, with all my love to vanilla Python, anyone who needs to squeeze the juice out of their CPU (which is actually memory bandwidth) has a plenty of other tools -- off the shelf libraries written in native code. (Honorable mention to Pypy, numba and such).<p>Finally, the one dramatic performance innovation in Python has been async programming - I warmly encourage everyone not familiar with it to consider taking a look."
-  },
-  {
-    "id": 44004459,
-    "type": "comment",
-    "by": "0x000xca0xfe",
-    "time": 1747397475,
-    "parent": 44003445,
-    "text": "I know it&#x27;s just an AI image... but a snake with two tails? C&#x27;mon!"
-  },
-  {
-    "id": 44004803,
-    "type": "comment",
-    "by": "amelius",
-    "time": 1747399579,
-    "parent": 44003445,
-    "text": "The snake in the header image appears to have two tail-ends ..."
   },
   {
     "id": 44004078,
@@ -104,22 +80,6 @@
     "text": "I thought this was mostly a solved problem.<p><pre><code>  Fibers\n  Green threads\n  Coroutines\n  Actors\n  Queues (eg GCD)\n  \u2026\n</code></pre>\nBasically you need to reason about what your thing will do.<p>Separate concerns. Each thing is a server (microservice?) with its own backpressure.<p>They schedule jobs on a queue.<p>The jobs come with some context, I don\u2019t care if it\u2019s a closure on the heap or a fiber with a stack or whatever. Javascript being single threaded with promises wastefully unwinds the entire stack for each tick instead of saving context. With callbacks you can save context in closures. But even that is pretty fast.<p>Anyway then you can just load-balance the context across machines. Easiest approach is just to have server affinity for each job. The servers just contain a cache of the data so if the servers fail then their replacements can grab the job from an indexed database. The insertion and the lookup is O(log n) each. And jobs are deleted when done (maybe leaving behind a small log that is compacted) so there are no memory leaks.<p>Oh yeah and whatever you store durably should be sharded and indexed properly, so practicalkt unlimited amounts can be stored. Avail"
   },
   {
-    "id": 44011534,
-    "type": "comment",
-    "by": "yunnpp",
-    "time": 1747448099,
-    "parent": 44003445,
-    "text": "In 2025, 20 years since multi-core is a thing on consumer devices. Great progress, guys. Can&#x27;t wait for what the Python community has up its sleeves next."
-  },
-  {
-    "id": 44006653,
-    "type": "comment",
-    "by": "p0w3n3d",
-    "time": 1747409354,
-    "parent": 44003445,
-    "text": "Look behind! A free-threaded Python!"
-  },
-  {
     "id": 44005920,
     "type": "comment",
     "by": "sylware",
@@ -134,14 +94,6 @@
     "time": 1747397478,
     "parent": 44003445,
     "text": "This is just an advertisement for the company. Fact is, free-threading is still up to 50% slower, the tail call interpreter isn&#x27;t much faster at all, and free-threading is still flaky.<p>Things they won&#x27;t tell you at PyCon."
-  },
-  {
-    "id": 44007770,
-    "type": "comment",
-    "by": "henry700",
-    "time": 1747415562,
-    "parent": 44003445,
-    "text": "I find it peculiar how, in a language so riddled with simple concurrency architectural issues, the approach is to painstankingly fix every library after fixing the runtime, instead of just using some better language. Why does the community insist on such a bad language when literally even fucking Javascript has a saner execution model?"
   },
   {
     "id": 44006151,
@@ -232,44 +184,12 @@
     "text": "Yes it makes every part of the ecosystem more complex and prone to bugs in hopes of getting more performance in a <i>scripting</i> language."
   },
   {
-    "id": 44004858,
-    "type": "comment",
-    "by": "bgwalter",
-    "time": 1747399937,
-    "parent": 44004601,
-    "text": "They were quite a bit behind the schedule that was promised five years ago.<p>Additionally, at this stage the severe political and governance problems cannot have escaped Microsoft. I imagine that no competent Microsoft employee wants to give his expertise to CPython, only later to suffer group defamation from a couple of elected mediocre people.<p>CPython is an organization that overpromises, allocates jobs to the obedient and faithful while weeding out competent dissenters.<p>It wasn&#x27;t always like that. The issues are entirely self-inflicted."
-  },
-  {
-    "id": 44006359,
-    "type": "comment",
-    "by": "morkalork",
-    "time": 1747407796,
-    "parent": 44004601,
-    "text": "Didn&#x27;t Google lay off their entire Python development team in the last year as well? I wonder if there is some impetus behind both."
-  },
-  {
-    "id": 44006075,
-    "type": "comment",
-    "by": "vlovich123",
-    "time": 1747406437,
-    "parent": 44004601,
-    "text": "That\u2019s unfortunate but I called it when people were claiming that Microsoft had committed to this effort for the long term."
-  },
-  {
     "id": 44004845,
     "type": "comment",
     "by": "rich_sasha",
     "time": 1747399829,
     "parent": 44004601,
     "text": "Ah that&#x27;s very, very sad. I guess they have embraced and extended, there&#x27;s only one thing left to do."
-  },
-  {
-    "id": 44004800,
-    "type": "comment",
-    "by": "falcor84",
-    "time": 1747399547,
-    "parent": 44004601,
-    "text": "It wouldn&#x27;t have bothered me if you just said &quot;Facebook&quot; - I probably wouldn&#x27;t have even noticed it. But I&#x27;m really curious why you chose to write &quot;Facebook&quot;, then apparently noticed the issue, and instead of replacing it with &quot;Meta&quot; decided to add the much longer &quot;(no need to correct me on the name)&quot;. What axe are you grinding?"
   },
   {
     "id": 44005659,
@@ -368,28 +288,12 @@
     "text": "I hope at least the option remains to enable the GIL, because I don&#x27;t trust me to write thread-safe code on the first few attempts."
   },
   {
-    "id": 44005773,
-    "type": "comment",
-    "by": "odiroot",
-    "time": 1747404784,
-    "parent": 44003888,
-    "text": "It&#x27;s called job security. We&#x27;ll be rewriting decades of code that&#x27;s broken by that transition."
-  },
-  {
     "id": 44011009,
     "type": "comment",
     "by": "seabrookmx",
     "time": 1747441400,
     "parent": 44003888,
     "text": "While it certainly has its rough edges, I&#x27;m a big asyncio user. So I&#x27;ll be over here happily writing concurrent python that&#x27;s single threaded, ie. pretending my Python is nodejs.<p>For the web&#x2F;network workloads most of us write, I&#x27;d highly recommend this."
-  },
-  {
-    "id": 44004431,
-    "type": "comment",
-    "by": "zem",
-    "time": 1747397259,
-    "parent": 44003888,
-    "text": "this looks extremely promising <a href=\"https:&#x2F;&#x2F;microsoft.github.io&#x2F;verona&#x2F;pyrona.html\" rel=\"nofollow\">https:&#x2F;&#x2F;microsoft.github.io&#x2F;verona&#x2F;pyrona.html</a>"
   },
   {
     "id": 44003958,
@@ -408,44 +312,12 @@
     "text": "how does the the language being dynamic negatively affect the complexity of multithreading?"
   },
   {
-    "id": 44006165,
-    "type": "comment",
-    "by": "almostgotcaught",
-    "time": 1747406942,
-    "parent": 44003888,
-    "text": "Do you understand what you&#x27;re implying?<p>&quot;Python programmers are so incompetent that Python succeeds as a language only because it lacks features they wouldn&#x27;t know to use&quot;<p>Even if it&#x27;s circumstantially true, doesn&#x27;t mean it&#x27;s the right guiding principle for the design of the language."
-  },
-  {
-    "id": 44003924,
-    "type": "comment",
-    "by": "DHolzer",
-    "time": 1747393789,
-    "parent": 44003888,
-    "text": "I was thinking that too. I am really not a professional developer though.<p>OFC it would be nice to just write python and everything would be 12x accelerated, but i don&#x27;t see how there would not be any draw-backs that would interfere with what makes python so approachable."
-  },
-  {
     "id": 44006518,
     "type": "comment",
     "by": "kstrauser",
     "time": 1747408698,
     "parent": 44005463,
     "text": "I haven\u2019t been using it that much longer than you, and I agree with most of what you\u2019re saying, but I\u2019d characterize it differently.<p>Python has a lot of solid workarounds for avoid threading because until now Python threading has absolutely sucked. I had naively tried to use it to make a CPU-bound workload twice as fast and soon realized the implications of the GIL, so I threw all that code away and made it multiprocessing instead. That sucked in its own way because I had to serialize lots of large data structures to pass around, so 2x the cores got me about 1.5x the speed and a warmer server room.<p>I would <i>love</i> to have good threading support in Python. It\u2019s not always the right solution, but there are a lot of circumstances where it\u2019d be absolutely peachy, and today we\u2019re faking our way around its absence with whole playbooks of alternative approaches to avoid the elephant in the room.<p>But yes, use async when it makes sense. It\u2019s a thing of beauty. (Yes, Glyph, we hear the \u201cI told you so!\u201d You were right.)"
-  },
-  {
-    "id": 44004469,
-    "type": "comment",
-    "by": "brookst",
-    "time": 1747397539,
-    "parent": 44004459,
-    "text": "Confusoborus"
-  },
-  {
-    "id": 44010347,
-    "type": "comment",
-    "by": "vpribish",
-    "time": 1747434662,
-    "parent": 44004459,
-    "text": "shh.  don&#x27;t complain too loudly or we&#x27;ll lose an important tell. python articles using snake illustrations can usually be ignored because they are not clueful.<p>-- python, monty"
   },
   {
     "id": 44005871,
@@ -488,14 +360,6 @@
     "text": "Perhaps is intentionally, to allude to the multithreaded nature of free-threaded Python."
   },
   {
-    "id": 44004015,
-    "type": "comment",
-    "by": "DonHopkins",
-    "time": 1747394528,
-    "parent": 44003999,
-    "text": "Maybe it&#x27;s an aroused male snake. Looks like he&#x27;s really into that bobbin!"
-  },
-  {
     "id": 44004081,
     "type": "comment",
     "by": "rowanG077",
@@ -504,68 +368,12 @@
     "text": "I thought it was a play on multiple threads. Besides why would it matter? This is to the same as someone saying when digital drawing came up that they can&#x27;t take an article seriously because some fluffy drawing was digitally drawn instead of hand drawn on paper."
   },
   {
-    "id": 44008680,
-    "type": "comment",
-    "by": "jdsleppy",
-    "time": 1747421408,
-    "parent": 44005920,
-    "text": "Did you compile the Python yourself?  If so, you may need to add optimization flags <a href=\"https:&#x2F;&#x2F;devguide.python.org&#x2F;getting-started&#x2F;setup-building&#x2F;index.html#optimization\" rel=\"nofollow\">https:&#x2F;&#x2F;devguide.python.org&#x2F;getting-started&#x2F;setup-building&#x2F;i...</a>"
-  },
-  {
     "id": 44006721,
     "type": "comment",
     "by": "ipsum2",
     "time": 1747409750,
     "parent": 44005920,
     "text": "python 3.13 doesn&#x27;t ship with free-threaded Python compiled AFAIK."
-  },
-  {
-    "id": 44007268,
-    "type": "comment",
-    "by": "lenerdenator",
-    "time": 1747412656,
-    "parent": 44004461,
-    "text": "I don&#x27;t see how any of that&#x27;s a problem given that it&#x27;s not the default for how people run Python.<p>It&#x27;s a big project that&#x27;s going to take lots of time by lots of people to finish. Keep it behind opt-in, keep accepting pull requests after rigorous testing, and it&#x27;s fine."
-  },
-  {
-    "id": 44006063,
-    "type": "comment",
-    "by": "tomrod",
-    "time": 1747406398,
-    "parent": 44004461,
-    "text": "QuantSight isn&#x27;t a formal company though, it&#x27;s a skunkworks&#x2F;OSS research group run by the Travis Oliphant."
-  },
-  {
-    "id": 44007847,
-    "type": "comment",
-    "by": "dash2",
-    "time": 1747416036,
-    "parent": 44007770,
-    "text": "I think the opposite. Every language has flaws. What&#x27;s impressive about Python is their ongoing commitment to work on theirs, even the deepest-rooted. It makes me optimistic that this is a language to stick with for the long run."
-  },
-  {
-    "id": 44008000,
-    "type": "comment",
-    "by": "rednafi",
-    "time": 1747417082,
-    "parent": 44007770,
-    "text": "I agree about using other languages that have better concurrency support if concurrency is your bottleneck.<p>But changing the language in a brownfield project is hard. I love Go, and these days I don\u2019t bother with Python if I know the backend needs to scale.<p>But Python\u2019s ecosystem is huge, and for data work, there\u2019s little alternative to it.<p>With all that said, JavaScript ain\u2019t got shit on any language. The only good thing about it is Google\u2019s runtime, and that has nothing to do with the language. JS doesn\u2019t have true concurrency and is a mess of a language in general. Python is slow, riddled with concurrency problems, but at least it\u2019s a real language created by a guy who knew what he was doing."
-  },
-  {
-    "id": 44007823,
-    "type": "comment",
-    "by": "forrestthewoods",
-    "time": 1747415896,
-    "parent": 44007770,
-    "text": "&gt; instead of just using some better language<p>Python the language is pretty bad. Python the ecosystem of libraries and tools has no equal, unfortunately.<p>Switching a language is easy. Switching a billion lines of library less so.<p>And the tragic part is that many of the top \u201cpython libraries\u201d are just Python interfaces to a C library! But if you want to switch to a \u201cbetter language\u201d that fact isn\u2019t helpful."
-  },
-  {
-    "id": 44007818,
-    "type": "comment",
-    "by": "mylons",
-    "time": 1747415871,
-    "parent": 44007770,
-    "text": "i find it peculiar how tribal people are about languages. python is fantastic. you&#x27;re not winning anyone over with comments like this. just go write your javascript and be happy, bud."
   },
   {
     "id": 44009754,
@@ -638,22 +446,6 @@
     "time": 1747428933,
     "parent": 44006145,
     "text": "&gt;Spawning a PYTHON interpreter process might take 30 ms to 300 ms before you get to main(), depending on the number of imports<p>That&#x27;s lucky. On constrained systems launching a new interpreter can very well take 10 seconds. Python is ssssslllloooowwwww."
-  },
-  {
-    "id": 44008341,
-    "type": "comment",
-    "by": "notpushkin",
-    "time": 1747419276,
-    "parent": 44005006,
-    "text": "We need a dataclass-like interface on top of a ShareableList."
-  },
-  {
-    "id": 44006004,
-    "type": "comment",
-    "by": "tomrod",
-    "time": 1747406090,
-    "parent": 44005006,
-    "text": "I can fit a lot of json into bytes&#x2F;strings though?"
   },
   {
     "id": 44010473,
@@ -736,14 +528,6 @@
     "text": "Fargate is just a container runtime. You can fork processes and share memory like you can in any other Linux environment. You may not want to (because you are running many cheap &#x2F; small containers) but if your Fargate containers are running 0.25 vCPUs then you probably don&#x27;t want traditional multiprocessing or multithreading..."
   },
   {
-    "id": 44010425,
-    "type": "comment",
-    "by": "sgarland",
-    "time": 1747435336,
-    "parent": 44007267,
-    "text": "Well don\u2019t use Fargate, there\u2019s your problem. Run programs on actual servers, not magical serverless bullshit."
-  },
-  {
     "id": 44005969,
     "type": "comment",
     "by": "celeritascelery",
@@ -760,68 +544,12 @@
     "text": "Note that there is an entire order of magnitude range for a &#x27;single digit&#x27;.<p>A 1% slowdown seems totally fine. A 9% slowdown is pretty bad."
   },
   {
-    "id": 44009550,
-    "type": "comment",
-    "by": "make3",
-    "time": 1747427492,
-    "parent": 44004858,
-    "text": "Microsoft also fired a whole lot of other open source people unrelated to Python in this current layoff"
-  },
-  {
     "id": 44005149,
     "type": "comment",
     "by": "biorach",
     "time": 1747401516,
     "parent": 44004858,
     "text": "&gt; CPython is an organization that overpromises, allocates jobs to the obedient and faithful while weeding out competent dissenters.<p>This stinks of BS"
-  },
-  {
-    "id": 44011848,
-    "type": "comment",
-    "by": "monkeyelite",
-    "time": 1747452938,
-    "parent": 44006359,
-    "text": "This is a story from a few years ago, and they obviously have lots of teams that use python. This team was an internal support for python and tools - which honestly sounds exactly like the kind of thing that would get cut in a pinch (no value judgement)."
-  },
-  {
-    "id": 44009557,
-    "type": "comment",
-    "by": "make3",
-    "time": 1747427536,
-    "parent": 44006359,
-    "text": "doesn&#x27;t print money right away = cut by executive #3442"
-  },
-  {
-    "id": 44006127,
-    "type": "comment",
-    "by": "mtzaldo",
-    "time": 1747406664,
-    "parent": 44006075,
-    "text": "Could we do a crowdfunding campaign so we can keep paying them? The whole world is&#x2F;will benefit from their work."
-  },
-  {
-    "id": 44005839,
-    "type": "comment",
-    "by": "stusmall",
-    "time": 1747405157,
-    "parent": 44004845,
-    "text": "That shows a misunderstanding of what EEE was.  This team was sending changes upstream which is the exact opposite of &quot;extend&quot; step of the strategy. The idea of &quot;extend&quot; was to add propriety extensions on top of an open standard&#x2F;project locking customers into the MSFT implementation."
-  },
-  {
-    "id": 44005137,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747401449,
-    "parent": 44004845,
-    "text": "At this stage the cliched and clueless comments about embrace&#x2F;extend&#x2F;extinguish are tiresome and inevitable whenever Microsoft is mentioned.<p>A few decades ago MS did indeed have a playbook which they  used to undermine open standards. Laying off some members of the Python team bears no resemblence whatsoever to that. At worst it will delay the improvement of free-threaded Python. That&#x27;s all.<p>Your comment is lazy and unfounded."
-  },
-  {
-    "id": 44004942,
-    "type": "comment",
-    "by": "pjmlp",
-    "time": 1747400404,
-    "parent": 44004800,
-    "text": "Yes, because I am quite certain someone without anything better to do would correct me on that.<p>For me Facebook will always be Facebook, and Twitter will always be Twitter."
   },
   {
     "id": 44005797,
@@ -862,14 +590,6 @@
     "time": 1747473047,
     "parent": 44003971,
     "text": "Knowledgeable people? Pytorch has memory leaks <i>by design</i>, it uses std::shared_ptr for a graph with cycles. It also has threading issues."
-  },
-  {
-    "id": 44006677,
-    "type": "comment",
-    "by": "rocqua",
-    "time": 1747409487,
-    "parent": 44003945,
-    "text": "This could, indeed, be quite catastrophic.<p>I wonder if companies will start adding this to their system prompts."
   },
   {
     "id": 44005583,
@@ -918,22 +638,6 @@
     "time": 1747415345,
     "parent": 44005012,
     "text": "This should not have been downvoted. It&#x27;s true that the GIL does not make python code thread-safe implicitly, you have to either construct your code carefully to be atomic (based on knowledge of how the GIL works) or make use of mutexes, semaphores, etc. It&#x27;s just memory-safe and can still have races etc."
-  },
-  {
-    "id": 44005842,
-    "type": "comment",
-    "by": "im3w1l",
-    "time": 1747405178,
-    "parent": 44004501,
-    "text": "You have to understand that people come from very different angles with python. Some people write web servers where in python, where speed equals money saved. Other people write little UI apps that where speed is a complete non-issue. Yet others write aiml code that spends most of its time in gpu code. But then they want to do just a little data massaging in python which can easily bottleneck the whole thing. And some people people write scripts that don&#x27;t use a .env but rather os-libraries."
-  },
-  {
-    "id": 44011887,
-    "type": "comment",
-    "by": "monkeyelite",
-    "time": 1747453539,
-    "parent": 44004501,
-    "text": "I don\u2019t understand this argument. My python program isn\u2019t the only program on the system - I have a database, web server, etc. It\u2019s already multi-core."
   },
   {
     "id": 44013078,
@@ -990,30 +694,6 @@
     "time": 1747402521,
     "parent": 44003940,
     "text": "When the language is dynamic there is less rigor. Statically checked code is more likely to be correct. When you add threads to &quot;fast and loose&quot; code things get really bad."
-  },
-  {
-    "id": 44010695,
-    "type": "comment",
-    "by": "zahlman",
-    "time": 1747437950,
-    "parent": 44006518,
-    "text": "&gt;  That sucked in its own way because I had to serialize lots of large data structures to pass around, so 2x the cores got me about 1.5x the speed and a warmer server room.<p>In many cases you can&#x27;t reasonably expect better than that (<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Amdahl&#x27;s_law\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Amdahl&#x27;s_law</a>). If your algorithm involves sharing &quot;large data structures&quot; in the first place, that&#x27;s a bad sign."
-  },
-  {
-    "id": 44013419,
-    "type": "comment",
-    "by": "BrokrnAlgorithm",
-    "time": 1747479637,
-    "parent": 44006518,
-    "text": "I find python&#x27;s async to be lacking in fine grained control. It may be fine for 95% of simple use cases, but lacks advanced features such as sequential constraining, task queue memory management, task pre-emption etc. The async keword also tends to bubble up through codebases in aweful ways, making it almost impossible to create reasonably decoupled code."
-  },
-  {
-    "id": 44008182,
-    "type": "comment",
-    "by": "sylware",
-    "time": 1747418262,
-    "parent": 44006721,
-    "text": "You mean it is not default anymore?"
   },
   {
     "id": 44009750,
@@ -1086,22 +766,6 @@
     "time": 1747438511,
     "parent": 44008341,
     "text": "Actually, ShareableList feels like a tuple really (as it\u2019s impossible to change its length). If we could mix ShareableList and collections.namedtuple together, it would get us 90% there (99.9% if we use typing.NamedTuple). Unfortunately, I can\u2019t decipher either one [1, 2] from the first glance \u2013 maybe if I get some more sleep?<p>[1]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;blob&#x2F;3.13&#x2F;Lib&#x2F;collections&#x2F;__init__.py#L358\">https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;blob&#x2F;3.13&#x2F;Lib&#x2F;collections&#x2F;...</a><p>[2]: <a href=\"https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;blob&#x2F;3.13&#x2F;Lib&#x2F;typing.py#L2979\">https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;blob&#x2F;3.13&#x2F;Lib&#x2F;typing.py#L2...</a>"
-  },
-  {
-    "id": 44007146,
-    "type": "comment",
-    "by": "frollogaston",
-    "time": 1747411933,
-    "parent": 44006004,
-    "text": "If all your state is already json-serializable, yeah. But that&#x27;s just as expensive as copying if not more, hence what cjbgkagh said about flatbuffers."
-  },
-  {
-    "id": 44006041,
-    "type": "comment",
-    "by": "cjbgkagh",
-    "time": 1747406259,
-    "parent": 44006004,
-    "text": "Perhaps flatbuffers would be better?"
   },
   {
     "id": 44008154,
@@ -1216,76 +880,12 @@
     "text": "I&#x27;ve seen benchmarks that estimate the regression at 20-30%, though I expect there&#x27;s large variance depending on what a program&#x27;s bottleneck is."
   },
   {
-    "id": 44011869,
-    "type": "comment",
-    "by": "monkeyelite",
-    "time": 1747453255,
-    "parent": 44006545,
-    "text": "If so, then why use python?"
-  },
-  {
-    "id": 44009786,
-    "type": "comment",
-    "by": "pjmlp",
-    "time": 1747429168,
-    "parent": 44009550,
-    "text": "Notably MAUI, ASP.NET, Typescript and AI frameworks."
-  },
-  {
-    "id": 44005483,
-    "type": "comment",
-    "by": "wisty",
-    "time": 1747403142,
-    "parent": 44005149,
-    "text": "It sounds like an oblique reference to that time they temporarily suspended one of the of the most valuable members of the community, apparently for having the audacity to suggest that their powers to suspend members of the community seemed a little arbitrary and open to abuse."
-  },
-  {
-    "id": 44013004,
-    "type": "comment",
-    "by": "bgwalter",
-    "time": 1747472235,
-    "parent": 44011848,
-    "text": "No, that story is from last year."
-  },
-  {
-    "id": 44006353,
-    "type": "comment",
-    "by": "jerrygenser",
-    "time": 1747407775,
-    "parent": 44005839,
-    "text": "Ok so a better example of what you describe might be vscode."
-  },
-  {
     "id": 44005688,
     "type": "comment",
     "by": "kstrauser",
     "time": 1747404313,
     "parent": 44005137,
     "text": "<i>cough</i> Bullshit <i>cough</i><p>* VSCode got popular and they started preventing forks from installing its extensions.<p>* They extended the Free Source pyright language server into the proprietary pylance. They don\u2019t even sell it. It\u2019s just there to make the FOSS version less useful.<p>* They bought GitHub and started rate limiting it to unlogged in visitors.<p>Every time Microsoft touches a thing, they end up locking it down. They can\u2019t help it. It\u2019s their nature. And if you\u2019re the frog carrying that scorpion across the pond and it stings you, well, you can only blame it so much. You knew this when they offered the deal.<p>Every time. It hasn\u2019t changed substantially since they declared that Linux is cancer, except to be more subtle in their attacks."
-  },
-  {
-    "id": 44005788,
-    "type": "comment",
-    "by": "rbanffy",
-    "time": 1747404854,
-    "parent": 44004942,
-    "text": "&gt; Twitter will always be Twitter.<p>If Elon can deadname his daughter, then we can deadname his company."
-  },
-  {
-    "id": 44005249,
-    "type": "comment",
-    "by": "falcor84",
-    "time": 1747401988,
-    "parent": 44004942,
-    "text": "&gt; Yes, because I am quite certain someone without anything better to do would correct me on that.<p>Well, you sure managed to avoid that by setting up camp on that hill. Kudos on so much time saved.<p>&gt; For me Facebook will always be Facebook, and Twitter will always be Twitter.<p>Well, for me the product will always be &quot;Thefacebook&quot;, but that&#x27;s since I haven&#x27;t used it since. But I do respect that there&#x27;s a company running it now that does more stuff and contributes to open source projects."
-  },
-  {
-    "id": 44012547,
-    "type": "comment",
-    "by": "UltraSane",
-    "time": 1747465325,
-    "parent": 44005797,
-    "text": "Just consider that mess job security!"
   },
   {
     "id": 44004665,
@@ -1408,14 +1008,6 @@
     "text": "My current concern is a CRUD interface that transcribes audio in the background. The transcription is triggered by user action. I need the &quot;transcription&quot; field disabled until the transcript is complete and stored in the database, then allow the user to edit the transcription in the UI.<p>Of course, while the transcription is in action the rest of the UI (Qt via Pyside) should remain usable. And multiple transcription requests should be supported - I&#x27;m thinking of a pool of transcription threads, but I&#x27;m uncertain how many to allocate. Half the quantity of CPUs? All the CPUs under 50% load?<p>Advise welcome!"
   },
   {
-    "id": 44010312,
-    "type": "comment",
-    "by": "dotancohen",
-    "time": 1747434388,
-    "parent": 44004577,
-    "text": "I&#x27;m willing to invest an afternoon learning. That&#x27;s been the premise of my entire career!"
-  },
-  {
     "id": 44004034,
     "type": "comment",
     "by": "toxik",
@@ -1438,22 +1030,6 @@
     "time": 1747441107,
     "parent": 44010695,
     "text": "That&#x27;s true, but you can sometimes get a whole lot closer if you can share state between threads. Sometimes you can&#x27;t help the size of the data. Maybe you have a thread reading frames from a video and passing them to workers for analysis. You might get crazy IO contention if you pass around &quot;foo.vid;frame222&quot; and &quot;foo.vid;frame223&quot; to the workers and make them retrieve that data themselves.<p>There may be another way to skin that specific cat. My point isn&#x27;t to solve one specific problem, but to say that some problems are just inherently large. And with Python, today, if those workers are CPU-bound in Python-land, that means running separate processes and passing large hunks of state around (or shoving it through SHM; same idea, just a different way of passing state)."
-  },
-  {
-    "id": 44008309,
-    "type": "comment",
-    "by": "ipsum2",
-    "time": 1747419090,
-    "parent": 44008182,
-    "text": "It&#x27;s never been the default."
-  },
-  {
-    "id": 44011700,
-    "type": "comment",
-    "by": "ori_b",
-    "time": 1747450629,
-    "parent": 44010564,
-    "text": "My machine is marginally faster for that; I get about 17ms doing that with python, without the print:<p><pre><code>    time echo &quot;exit()&quot; | python3\n\n    real    0m0.017s\n    user    0m0.014s\n    sys     0m0.003s\n</code></pre>\nThat&#x27;s... still pretty slow. Here&#x27;s a C program, run 100 times:<p><pre><code>    range=`seq 100`\n    time for i in $range; do .&#x2F;a.out; done\n\n    real    0m0.038s\n    user    0m0.024s\n    sys     0m0.016s\n</code></pre>\nAnd finally, for comparison on Plan 9:<p><pre><code>   range=`{seq 2000}\n   time rc -c &#x27;for(s in $range){ .&#x2F;6.nop }&#x27;\n\n   0.01u 0.09s 0.16r   rc -c for(s in $range){ .&#x2F;6.nop }\n</code></pre>\nthe C program used was simply:<p><pre><code>   int main(void) { return 0; }\n</code></pre>\nOf course, the more real work you do in the program, the less it matters -- but there&#x27;s a hell of a lot you can do in the time it takes Python to launch."
   },
   {
     "id": 44010504,
@@ -1488,54 +1064,6 @@
     "text": "Python runs on other operating systems, like NT, where AIUI processes are rather more heavyweight.<p>Not all use cases of Python and Windows intersect (how much web server stuff is a Windows &#x2F; IIS &#x2F; SQL Server &#x2F; Python stack? Probably not many, although WISP is a nice acronym), but you\u2019ve still got to bear it in mind for people doing heavy numpy stuff on their work laptop or whatever."
   },
   {
-    "id": 44012374,
-    "type": "comment",
-    "by": "saagarjha",
-    "time": 1747462624,
-    "parent": 44007828,
-    "text": "Yes, this is why using shell scripts on macOS is miserable"
-  },
-  {
-    "id": 44013686,
-    "type": "comment",
-    "by": "bobmcnamara",
-    "time": 1747483515,
-    "parent": 44007828,
-    "text": "Before we had MMUs and CoW, it was awful slow"
-  },
-  {
-    "id": 44010306,
-    "type": "comment",
-    "by": "frollogaston",
-    "time": 1747434328,
-    "parent": 44007146,
-    "text": "oh nvm, that doesn&#x27;t solve this either"
-  },
-  {
-    "id": 44006072,
-    "type": "comment",
-    "by": "tomrod",
-    "time": 1747406432,
-    "parent": 44006041,
-    "text": "I love learning from folks on HN -- thanks! Will check it out."
-  },
-  {
-    "id": 44007279,
-    "type": "comment",
-    "by": "tinix",
-    "time": 1747412705,
-    "parent": 44006041,
-    "text": "let me introduce you to quickle."
-  },
-  {
-    "id": 44008726,
-    "type": "comment",
-    "by": "tomrod",
-    "time": 1747421735,
-    "parent": 44008154,
-    "text": "I mean, the answer to this is pretty straightforward -- because we can, not because we should :)"
-  },
-  {
     "id": 44006078,
     "type": "comment",
     "by": "tomrod",
@@ -1560,28 +1088,12 @@
     "text": "&gt; Yet, there&#x27;s a pip maintainer who actively sabotages free-threading work.<p>Wow. Could you elaborate?"
   },
   {
-    "id": 44014609,
-    "type": "comment",
-    "by": "Doxin",
-    "time": 1747492352,
-    "parent": 44006881,
-    "text": "For anyone who hasn&#x27;t used uv, I feel like 10x faster is an understatement. For cases where packages are already downloaded it&#x27;s basically instant for any use case I have run into."
-  },
-  {
     "id": 44007196,
     "type": "comment",
     "by": "fjasdfas",
     "time": 1747412202,
     "parent": 44006258,
     "text": "You can do multiple processes with SO_REUSEPORT.<p>free-threaded makes sense if you need shared state."
-  },
-  {
-    "id": 44006825,
-    "type": "comment",
-    "by": "weakfish",
-    "time": 1747410337,
-    "parent": 44006258,
-    "text": "Is there any news from FastAPI folks and&#x2F;or Gunicorn on their support?"
   },
   {
     "id": 44011230,
@@ -1592,22 +1104,6 @@
     "text": "It\u2019s not either&#x2F;or. The CPython speedups would be even better with the single threaded interpreter."
   },
   {
-    "id": 44005528,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747403453,
-    "parent": 44005483,
-    "text": "Well they could just say that instead of wasting people&#x27;s time with oblique references"
-  },
-  {
-    "id": 44011750,
-    "type": "comment",
-    "by": "kragen",
-    "time": 1747451286,
-    "parent": 44005483,
-    "text": "Temporarily? Tim Peters got reinstated?"
-  },
-  {
     "id": 44006499,
     "type": "comment",
     "by": "nothrabannosir",
@@ -1616,76 +1112,12 @@
     "text": "What existing open standard did vscode Embrace? I thought Microsoft created v0 themselves.<p>A classic example is ActiveX."
   },
   {
-    "id": 44005982,
-    "type": "comment",
-    "by": "oblio",
-    "time": 1747405921,
-    "parent": 44005688,
-    "text": "I actually hate this trope more because of what is says about the poster. Which I guess would, that they&#x27;re someone wearing horse blinders.<p>There&#x27;s a part of me that wants to scream at them:<p>&quot;Look around you!!! It&#x27;s not 1999 anymore!!! These days we have Google, Amazon, Apple, Facebook, etc, which are just as bad if not worse!!! Cut it out with the 20+ year old bad jokes!!!&quot;<p>Yes, Microsoft is bad. The reason Micr$oft was the enemy back in the day is because they... won. They were bigger than anyone else in the fields that mattered (except for server-side, where they almost one). Now they&#x27;re just 1 in a gang of evils. There&#x27;s nothing special about them anymore. I&#x27;m more scared of Apple and Google."
-  },
-  {
-    "id": 44006533,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747408763,
-    "parent": 44005688,
-    "text": "None of those were independent projects or open standards.\nVScode and pyright are both MS projects from the get-go.<p>Sabotaging forks is scummy, but the forks were extending MS functionality, not the other way around.<p>GitHub was a private company before it was bought by MS. Rate limiting is.... not great, but certainly not an extinguish play.<p>EEE refers to the subversion of open standards or independent free software projects. It does not apply to any of the above.<p>MS are still scummy but at least attack them on their own demerits, and don&#x27;t parrot some schtick from decades ago."
-  },
-  {
-    "id": 44005847,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747405200,
-    "parent": 44005788,
-    "text": "That\u2019s the rationale I\u2019ve been using."
-  },
-  {
-    "id": 44005565,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747403665,
-    "parent": 44005249,
-    "text": "&gt; Well, you sure managed to avoid that by setting up camp on that hill. Kudos on so much time saved.<p>Why are you picking a fight about this?"
-  },
-  {
-    "id": 44005670,
-    "type": "comment",
-    "by": "Flamentono2",
-    "time": 1747404196,
-    "parent": 44005249,
-    "text": "With money which destroied our society"
-  },
-  {
-    "id": 44005661,
-    "type": "comment",
-    "by": "delusional",
-    "time": 1747404151,
-    "parent": 44004665,
-    "text": "&gt; Software rots<p>No it does not. I hate that analogy so much because it leads to such bad behavior. Software is a digital artifact that can does not degrade. With the right attitude, you&#x27;d be able to execute the same binary on new machines for as long as you desired. That is not true of organic matter that actually rots.<p>The only reason we need to change software is that we trade that off against something else. Instructions are reworked, because chasing the universal Turing machine takes a few sacrifices. If all software has to run on the same hardware, those two artifacts have to have a dialogue about what they need from each other.<p>If we didnt want the universal machine to do anything new. If we had a valuable product. We could just keep making the machine that executes that product. It never rots."
-  },
-  {
-    "id": 44007054,
-    "type": "comment",
-    "by": "spookie",
-    "time": 1747411430,
-    "parent": 44004665,
-    "text": "The other day I compiled a 1989 C program and it did the job.<p>I wish more things were like that. Tired of building things on shaky grounds."
-  },
-  {
     "id": 44010622,
     "type": "comment",
     "by": "zahlman",
     "time": 1747437063,
     "parent": 44004665,
     "text": "&gt; A language changes how something behaves in a new revision, suddenly 20 year old bedrock tools are getting massively patched to accommodate both new and old behavior.<p>In my estimation, the only &quot;20 year old bedrock tools&quot; in Python are in the standard library - which currently holds itself free to deprecate entire modules in any minor version, and remove them two minor versions later - note that this is a pseudo-calver created by a coincidentally annual release cadence. (A bunch of stuff that old was taken out recently, but it can&#x27;t really be considered &quot;bedrock&quot; - see <a href=\"https:&#x2F;&#x2F;peps.python.org&#x2F;pep-0594&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;peps.python.org&#x2F;pep-0594&#x2F;</a>).<p>Unless you include NumPy&#x27;s predecessors when dating it (<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;NumPy#History\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;NumPy#History</a>). And the latest versions of NumPy don&#x27;t even support Python 3.9 which is still not EOL.<p>Requests turns 15 next February (<a href=\"https:&#x2F;&#x2F;pypi.org&#x2F;project&#x2F;requests&#x2F;#history\" rel=\"nofollow\">https:&#x2F"
-  },
-  {
-    "id": 44005802,
-    "type": "comment",
-    "by": "cestith",
-    "time": 1747404948,
-    "parent": 44004665,
-    "text": "My only concern is this kind of change in semantics for existing syntax is more worthy of a major revision than a point release."
   },
   {
     "id": 44005901,
@@ -1702,14 +1134,6 @@
     "time": 1747398201,
     "parent": 44004284,
     "text": "This is the nugget of information I was hoping for. So indeed even GIL threaded code today can suffer from concurrency bugs (more so than many people here seem to think)."
-  },
-  {
-    "id": 44005911,
-    "type": "comment",
-    "by": "amelius",
-    "time": 1747405502,
-    "parent": 44005807,
-    "text": "Sounds good, yes."
   },
   {
     "id": 44019645,
@@ -1768,44 +1192,12 @@
     "text": "See e.g. <a href=\"https:&#x2F;&#x2F;www.alibabacloud.com&#x2F;blog&#x2F;async-fork-mitigating-query-latency-spikes-incurred-by-the-fork-based-snapshot-mechanism_600205\" rel=\"nofollow\">https:&#x2F;&#x2F;www.alibabacloud.com&#x2F;blog&#x2F;async-fork-mitigating-quer...</a>"
   },
   {
-    "id": 44010861,
-    "type": "comment",
-    "by": "duped",
-    "time": 1747439803,
-    "parent": 44010625,
-    "text": "Tbh if you&#x27;re optimizing python code you&#x27;ve already lost"
-  },
-  {
-    "id": 44010738,
-    "type": "comment",
-    "by": "zahlman",
-    "time": 1747438470,
-    "parent": 44010625,
-    "text": "You&#x27;d presumably need to do something involving weakrefs, since it would be really bad if you told Python that the elements can be GCd at all (never mind whether it can be done all at once) but someone else had a reference.<p>Or completely rearchitect the language to have a model of automatic (in the C sense) allocation. I can&#x27;t see that ever happening."
-  },
-  {
     "id": 44012256,
     "type": "comment",
     "by": "Too",
     "time": 1747459981,
     "parent": 44010625,
     "text": "Never experienced this. If this is truly a problem, here is a sledgehammer, just beware it will not close your tcp connections gracefully: os.kill(os.getpid(), signal.SIGKILL)."
-  },
-  {
-    "id": 44010911,
-    "type": "comment",
-    "by": "Izkata",
-    "time": 1747440427,
-    "parent": 44010625,
-    "text": "There&#x27;s already a global:<p><pre><code>  import gc\n  gc.disable()\n</code></pre>\nSo I imagine putting more in there to remove objects from the tracking."
-  },
-  {
-    "id": 44008294,
-    "type": "comment",
-    "by": "notpushkin",
-    "time": 1747418997,
-    "parent": 44006072,
-    "text": "Take a look at <a href=\"https:&#x2F;&#x2F;capnproto.org&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;capnproto.org&#x2F;</a> as well, while at it.<p>Neither solve the copying problem, though."
   },
   {
     "id": 44014419,
@@ -1824,164 +1216,12 @@
     "text": "Any webserver that wants to cache and reuse content cares about shared state, but usually has to outsource that to a shared in-memory database because the language can&#x27;t support it."
   },
   {
-    "id": 44013013,
-    "type": "comment",
-    "by": "foresto",
-    "time": 1747472329,
-    "parent": 44011230,
-    "text": "Nobody has suggested otherwise."
-  },
-  {
-    "id": 44005719,
-    "type": "comment",
-    "by": "robertlagrant",
-    "time": 1747404465,
-    "parent": 44005528,
-    "text": "Saying &quot;This stinks of BS&quot; is going to mean you have little standing to criticise other people for wasting time."
-  },
-  {
-    "id": 44012908,
-    "type": "comment",
-    "by": "kragen",
-    "time": 1747470620,
-    "parent": 44011750,
-    "text": "Apparently so: <a href=\"https:&#x2F;&#x2F;lwn.net&#x2F;Articles&#x2F;1002340&#x2F;\" rel=\"nofollow\">https:&#x2F;&#x2F;lwn.net&#x2F;Articles&#x2F;1002340&#x2F;</a>"
-  },
-  {
-    "id": 44006590,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747409024,
-    "parent": 44006499,
-    "text": "&gt; A classic example is ActiveX.<p>Nah, even that was based on earlier MS technologies - OLE and COM<p>A good starter list of EEE plays is on the wikipedia page:\n<a href=\"https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Embrace,_extend,_and_extinguish\" rel=\"nofollow\">https:&#x2F;&#x2F;en.wikipedia.org&#x2F;wiki&#x2F;Embrace,_extend,_and_extinguis...</a>"
-  },
-  {
-    "id": 44010717,
-    "type": "comment",
-    "by": "nyanpasu64",
-    "time": 1747438268,
-    "parent": 44006499,
-    "text": "Microsoft &quot;embraced&quot; open-source ecosystems with an &quot;open-source&quot; editor, extended it with proprietary extensions DRMed to binary blobs hidden in VS Code binary builds, and used it to extinguish SSH, Python, C++, etc. development in open-source and derivative works of VS Code."
-  },
-  {
-    "id": 44010084,
-    "type": "comment",
-    "by": "JacobHenner",
-    "time": 1747432282,
-    "parent": 44006499,
-    "text": "VSCode displaced Atom, pre-GitHub acquisition, by building on top of Atom&#x27;s rendering engine Electron."
-  },
-  {
-    "id": 44006319,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747407599,
-    "parent": 44005982,
-    "text": "That\u2019s only reasonable if you believe you can only distrust one company at a time. I distrust every one you mentioned there, for different reasons, in different ways. I don\u2019t think that Apple is trying to exclusively own the field of programming tools to their own profit, nor do I think that Facebook is. I don\u2019t think Apple is trying to own all data about every human. I don\u2019t think Microsoft is trying to force all vendors to sell through their app store.<p>But the thing is that Microsoft hasn\u2019t seemed to fundamentally change since 1999. They appear kinder and friendlier but they keep running the same EEE playbook everywhere they can. Lots of us give them a free pass because they let us run a nifty free-for-now programming editor. That doesn\u2019t change the leopard\u2019s spots, though."
-  },
-  {
-    "id": 44006692,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747409570,
-    "parent": 44006533,
-    "text": "It\u2019s not just EEE, though. They have a history of getting devs all in on a thing and then killing it with corporate-grade ADHD. They bought Visual FoxPro, got bored with it, and told everyone to rewrite into Visual Basic (which they then killed). Then the future was Silverlight, until it wasn\u2019t. There are a thousand of these things that weren\u2019t deliberately evil in the EEE, but defined the word rugpull before we called it that.<p>So even without EEE, I think it\u2019s supremely risky to hitch your wagon to their tech or services (unless you\u2019re writing primarily for Windows, which is what they\u2019d love to help you migrate to). And I can\u2019t be convinced the GitHub acquisition wasn\u2019t some combination of these dark patterns.<p>Step 1: Get a plurality of the world\u2019s FOSS into one place.<p>Step 2: Feed it into a LLM and then embed it in a popular free editor so that everyone can use GPL code without actually having to abide the license.<p>Step 3: Make it increasingly hard to use for FOSS development by starting to add barriers a little at a time. <i>&lt;= we are here</i><p>As a developer, they\u2019ve done nothing substantial to earn my trust. I think a lot of Microsoft employees are good people who "
-  },
-  {
-    "id": 44005803,
-    "type": "comment",
-    "by": "falcor84",
-    "time": 1747404952,
-    "parent": 44005565,
-    "text": "I think I&#x27;m taking it personally because I had previously changed my name and had people repeatedly call me by my old name just to annoy&#x2F;hurt me.<p>Obviously I know that companies aren&#x27;t people and don&#x27;t have feelings, but I can&#x27;t understand why you would intentionally avoid using their chosen name, even when it&#x27;s more effort to you."
-  },
-  {
-    "id": 44005771,
-    "type": "comment",
-    "by": "dahcryn",
-    "time": 1747404782,
-    "parent": 44005661,
-    "text": "yes it does.<p>If software is implicitly built on wrong understanding, or undefined behaviour, I consider it rotting when it starts to fall apart as those undefined behaviours get defined. We do not need to sacrifice a stable future because of a few 15 year old programs. Let the people who care about the value that those programs bring, manage the update cycle and fix it."
-  },
-  {
-    "id": 44005775,
-    "type": "comment",
-    "by": "eblume",
-    "time": 1747404802,
-    "parent": 44005661,
-    "text": "Software is written with a context, and the context degrades. It must be renewed. It rots, sorry."
-  },
-  {
-    "id": 44006313,
-    "type": "comment",
-    "by": "indymike",
-    "time": 1747407558,
-    "parent": 44005661,
-    "text": "&gt;&gt; Software rots\n&gt; No it does not.<p>I&#x27;m thankful that it does, or I would have been out of work long ago. It&#x27;s not that the files change (literal rot), it is that hardware, OSes, libraries, and everything else changes. I&#x27;m also thankful that we have not stopped innovating on all of the things the software I write depends on. You know, another thing changes - what we are using the software for. The accounting software I wrote in the late 80s... would produce financial reports that were what was expected then, but would not meet modern GAAP requirements."
-  },
-  {
-    "id": 44005751,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747404651,
-    "parent": 44005661,
-    "text": "That\u2019s not what the phrase implies. If you have a C program from 1982, you can still compile it on a 1982 operating system and toolchain and it\u2019ll work just as before.<p>But if you tried to compile it on today\u2019s libc, making today\u2019s syscalls\u2026 good luck with that.<p>Software \u201crots\u201d in the sense that it has to be updated to run on today\u2019s systems. They\u2019re a moving target. You can still run HyperCard on an emulator, but good luck running it unmodded on a Mac you buy today."
-  },
-  {
-    "id": 44006656,
-    "type": "comment",
-    "by": "rocqua",
-    "time": 1747409373,
-    "parent": 44005661,
-    "text": "Fair point, but there is an interesting question posed.<p>Software doesn&#x27;t rot, it remains constant. But the context around it changes, which means it loses usefulness slowly as time passes.<p>What is the name for this? You could say &#x27;software becomes anachronistic&#x27;. But is there a good verb for that? It certainly seems like something that a lot more than just software experiences. Plenty of real world things that have been perfectly preserved are now much less useful because the context changed. Consider an Oxen-yoke, typewriters, horse-drawn carriages, envelopes, phone switchboards, etc.<p>It really feels like this concept should have a verb."
-  },
-  {
-    "id": 44010640,
-    "type": "comment",
-    "by": "zahlman",
-    "time": 1747437276,
-    "parent": 44005661,
-    "text": "&gt;execute the same binary<p>Only if you statically compile or don&#x27;t upgrade your dependencies. Or don&#x27;t allow your dependencies to innovate."
-  },
-  {
-    "id": 44012370,
-    "type": "comment",
-    "by": "Too",
-    "time": 1747462536,
-    "parent": 44007054,
-    "text": "Hello world without -O2 -Werror? I&#x27;ve done several compiler toolchain updates on larger code bases and every new version of Clang, GCC or glibc will trip up new compiler warnings. Worse, occasionally taking advantage of some UB laying around leading to runtime bugs.<p>I&#x27;m not complaining, the new stricter warnings are usually for the better, what I&#x27;m saying is that the bedrock of that world isn&#x27;t as stable as it&#x27;s sometimes portraited."
-  },
-  {
-    "id": 44009051,
-    "type": "comment",
-    "by": "rbanffy",
-    "time": 1747424181,
-    "parent": 44007054,
-    "text": "If you go into mainframes, you&#x27;ll compile code that was written 50 years ago without issue. In fact, you&#x27;ll run code that was compiled 50 years ago and all that&#x27;ll happen is that it&#x27;ll finish much sooner than it did on the old 360 it originally ran on."
-  },
-  {
-    "id": 44012014,
-    "type": "comment",
-    "by": "necovek",
-    "time": 1747455527,
-    "parent": 44005802,
-    "text": "Python already has a history of &quot;misrepresenting&quot; the ycope of the change (like changing behaviour of one of core data types and calling it just a major version change \u2014 that&#x27;s really a new language IMHO).<p>Still, that&#x27;s only a marketing move, technically the choice was still the right one, just like this one is."
-  },
-  {
     "id": 44009055,
     "type": "comment",
     "by": "rbanffy",
     "time": 1747424234,
     "parent": 44005802,
     "text": "It&#x27;s opt-in at the moment. It won&#x27;t be the default behavior for a couple releases.<p>Maybe we&#x27;ll get Python 4 with no GIL.<p>&#x2F;me ducks"
-  },
-  {
-    "id": 44015059,
-    "type": "comment",
-    "by": "markkitti",
-    "time": 1747496224,
-    "parent": 44005802,
-    "text": "Agreed. This should have been Python 4."
   },
   {
     "id": 44006404,
@@ -2000,22 +1240,6 @@
     "text": "Although keep in mind that the callback will be &quot;called in a thread belonging to the process&quot; (say the docs), presumably some thread that is not the UI thread. So the callback needs to post an event to the UI thread&#x27;s event queue, where it can be picked up by the UI thread&#x27;s event loop and only then perform the UI updates.<p>I don&#x27;t know how that&#x27;s done in Pyside, though. I couldn&#x27;t find a clear example. You might have to use a QThread instead to handle it."
   },
   {
-    "id": 44010314,
-    "type": "comment",
-    "by": "dotancohen",
-    "time": 1747434401,
-    "parent": 44004418,
-    "text": "Thank you."
-  },
-  {
-    "id": 44004265,
-    "type": "comment",
-    "by": "immibis",
-    "time": 1747396315,
-    "parent": 44004133,
-    "text": "AFAIK a group of instructions is only non-protected if one of the instructions does I&#x2F;O. Explicit I&#x2F;O - page faults don&#x27;t count."
-  },
-  {
     "id": 44011731,
     "type": "comment",
     "by": "kragen",
@@ -2024,124 +1248,12 @@
     "text": "On a 64-core machine, Python code that uses all the cores will be modestly faster than single-threaded C, even if all the inner loops are in Python. If you can move the inner loops to C, for example with Numpy, you can do much better still.  (Python is still harder to get right than something like C or OCaml, of course, especially for larger programs, but often the smaller amount of code and quicker feedback loop can compensate for that.)"
   },
   {
-    "id": 44010925,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747440558,
-    "parent": 44010861,
-    "text": "Run along."
-  },
-  {
-    "id": 44010924,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747440544,
-    "parent": 44010738,
-    "text": "I don&#x27;t think either of those are true. I&#x27;m not arguing against cleaning up objects during the normal runtime. What I&#x27;d like is something that would avoid GC&#x27;ing objects one-at-a-time at program shutdown.<p>I&#x27;ve had cases where it took Python like 30 seconds to exit after I&#x27;d slurped a large CSV with a zillion rows into RAM. At that time, I&#x27;d dreamed of a way to tell Python not to bother free()ing any of that, just exit() and let Linux unmap RAM all at once. If you think about it, there probably aren&#x27;t that many resources you actually care about individually freeing on exit. I&#x27;m certain somewill will prove me wrong, but at a first pass, objects that don&#x27;t define __del__ or __exit__ probably don&#x27;t care how you destroy them."
-  },
-  {
-    "id": 44010998,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747441269,
-    "parent": 44010911,
-    "text": "That can go a long way, so long as you remember to manually GC the handful of things you do care about."
-  },
-  {
     "id": 44010304,
     "type": "comment",
     "by": "frollogaston",
     "time": 1747434314,
     "parent": 44008294,
     "text": "Ah, I forgot capnproto doesn&#x27;t let you edit a serialized proto in-memory, it&#x27;s read-only. In theory this should be possible as long as you&#x27;re not changing the length of anything, but I&#x27;m not surprised such trickery is unsupported.<p>So this doesn&#x27;t seem like a versatile solution for sharing data structs between two Python processes. You&#x27;re gonna have to reserialize the whole thing if one side wants to edit, which is basically copying."
-  },
-  {
-    "id": 44011868,
-    "type": "comment",
-    "by": "monkeyelite",
-    "time": 1747453237,
-    "parent": 44009777,
-    "text": "And most web servers already need in memory databases for other things. And it\u2019s a great design principle - use sharp focused tools."
-  },
-  {
-    "id": 44007246,
-    "type": "comment",
-    "by": "nothrabannosir",
-    "time": 1747412466,
-    "parent": 44006590,
-    "text": "Funny you linked that page because that\u2019s where I got activex from :D<p><i>&gt; Examples by Microsoft</i><p><i>&gt; Browser incompatibilities</i><p><i>&gt; The plaintiffs in an antitrust case claimed Microsoft had added support for ActiveX controls in the Internet Explorer Web browser to break compatibility with Netscape Navigator, which used components based on Java and Netscape&#x27;s own plugin system.</i>"
-  },
-  {
-    "id": 44006596,
-    "type": "comment",
-    "by": "mixmastamyk",
-    "time": 1747409047,
-    "parent": 44006319,
-    "text": "All these posts and no one mentioned their numerous, recent, abusive deeds around Windows or negligent security posture, all the while having captured Uncle Sam and other governments.<p>MS has continued to metastasize and is in some ways worse than the old days, even if they\u2019ve finally accepted the utility of open source as a loss leader.<p>They have the only BigTech products I\u2019ve been forced to use if I want to eat."
-  },
-  {
-    "id": 44006791,
-    "type": "comment",
-    "by": "oblio",
-    "time": 1747410137,
-    "parent": 44006319,
-    "text": "Yet I only ever see these tired EEE memes for Microsoft when Chrome is basically the web, for example."
-  },
-  {
-    "id": 44006747,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747409924,
-    "parent": 44006692,
-    "text": "&gt; I think it\u2019s supremely risky to hitch your wagon to their tech or services<p>OK, finally, yes, this is very true, for specific parts of their tech.<p>But banging on about EEE just distracts from this, more important message.<p>&gt; Make it increasingly hard to use for FOSS development by starting to add barriers a little at a time. &lt;= we are here<p>....and now you&#x27;ve lost me again"
-  },
-  {
-    "id": 44010743,
-    "type": "comment",
-    "by": "nyanpasu64",
-    "time": 1747438486,
-    "parent": 44006692,
-    "text": "I&#x27;m more upset that Microsoft is <i>charging money</i> for using a code generation model trained on copyleft code."
-  },
-  {
-    "id": 44005860,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747405247,
-    "parent": 44005803,
-    "text": "I wouldn\u2019t do that to a person. I\u2019m not worried about hurting Twitter\u2019s feelings, though."
-  },
-  {
-    "id": 44022495,
-    "type": "comment",
-    "by": "Flamentono2",
-    "time": 1747585730,
-    "parent": 44005803,
-    "text": "Oh in this particular case i do this on purpose too.<p>To make it very clear that people don&#x27;t forget were the Money is coming from.<p>Its Facebook, its Facebook money"
-  },
-  {
-    "id": 44006626,
-    "type": "comment",
-    "by": "igouy",
-    "time": 1747409209,
-    "parent": 44005775,
-    "text": "You said it&#x27;s the context that rots."
-  },
-  {
-    "id": 44010649,
-    "type": "comment",
-    "by": "zahlman",
-    "time": 1747437355,
-    "parent": 44005751,
-    "text": "&gt; You can still run HyperCard on an emulator, but good luck running it unmodded on a Mac you buy today.<p>I grew up with HyperCard, so I had a moment of sadness here."
-  },
-  {
-    "id": 44008334,
-    "type": "comment",
-    "by": "igouy",
-    "time": 1747419235,
-    "parent": 44006656,
-    "text": "obsolescence"
   },
   {
     "id": 44010363,
@@ -2176,30 +1288,6 @@
     "text": "Ah.<p>I <i>imagine</i> the problem is that `__del__` could be monkeypatched, so Python doesn&#x27;t strictly know what needs custom finalization until that moment.<p>But if you have a concrete proposal, it&#x27;s likely worth shopping around at <a href=\"https:&#x2F;&#x2F;discuss.python.org&#x2F;c&#x2F;ideas&#x2F;6\" rel=\"nofollow\">https:&#x2F;&#x2F;discuss.python.org&#x2F;c&#x2F;ideas&#x2F;6</a> or <a href=\"https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;issues&#x2F;\">https:&#x2F;&#x2F;github.com&#x2F;python&#x2F;cpython&#x2F;issues&#x2F;</a> ."
   },
   {
-    "id": 44016081,
-    "type": "comment",
-    "by": "westurner",
-    "time": 1747506573,
-    "parent": 44010998,
-    "text": "Is there a good way to add __del__() methods or to wrap Context Manager __enter__()&#x2F;__exit__() methods around objects that never needed them because of the gc?<p>Hadn&#x27;t seen this:<p><pre><code>  import gc\n  gc.disable()\n</code></pre>\nCython has __dealloc__() instead of __del__()?"
-  },
-  {
-    "id": 44013519,
-    "type": "comment",
-    "by": "MonkeyClub",
-    "time": 1747481217,
-    "parent": 44010998,
-    "text": "And then we&#x27;re back to manual memory management.<p>At least the objects get instantiated automatically, and you don&#x27;t need to malloc() them into existence yourself; I guess that&#x27;s still something."
-  },
-  {
-    "id": 44007297,
-    "type": "comment",
-    "by": "biorach",
-    "time": 1747412807,
-    "parent": 44007246,
-    "text": "ah ok, sorry. I thought you were saying that they tried an EEE play on ActiveX.<p>You meant they used ActiveX in an EEE play in the browser wars."
-  },
-  {
     "id": 44006971,
     "type": "comment",
     "by": "kstrauser",
@@ -2208,115 +1296,11 @@
     "text": "I don\u2019t know what to tell you, except that you obviously haven\u2019t read a lot of my stuff on that topic. (Not that I would expect anyone to have, mind you. I\u2019m nobody.) I agree with you. I only use Chrome when I must, like when I\u2019m updating a Meshtastic radio and the flasher app doesn\u2019t run on Firefox or Safari.<p>I\u2019m not anti-MS as much as anti their behavior, whoever is acting that way. This thread is directly related to MS so I\u2019m expressing my opinion on MS here. I\u2019ll be more than happy to share my thoughts on Chrome in a Google thread."
   },
   {
-    "id": 44006925,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747410847,
-    "parent": 44006747,
-    "text": "Note I wasn\u2019t the one who said EEE upstream. I was just replying to the thread.<p>Hanlon\u2019s razor is a thing, and I generally follow it. It\u2019s just that I\u2019ve seen Microsoft make so many \u201coops, our bad!\u201d mistakes over the years that purely coincidentally gave them an edge up over their competition, that I tend to distrust such claims from them.<p>I don\u2019t feel that way about all corps. Oracle doesn\u2019t make little mistakes that accidentally harm the competition while helping themselves. No, they\u2019ll look you in the eye and explain that they\u2019re mugging you while they take your wallet. It\u2019s kind of refreshingly honest in its own way."
-  },
-  {
-    "id": 44006736,
-    "type": "comment",
-    "by": "bayindirh",
-    "time": 1747409856,
-    "parent": 44006626,
-    "text": "It&#x27;s a matter of perspective, I guess...<p>When you look from the program&#x27;s perspective, the context changes and becomes unrecognizable, IOW, it rots.<p>When you look from the context&#x27;s perspective, the program changes by not evolving and keeping up with the context, IOW, it rots.<p>Maybe we anthropomorphize both and say &quot;they grow apart&quot;. :)"
-  },
-  {
-    "id": 44011007,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747441378,
-    "parent": 44010649,
-    "text": "We all have our own personal HyperCard."
-  },
-  {
     "id": 44010633,
     "type": "comment",
     "by": "ptx",
     "time": 1747437170,
     "parent": 44010363,
     "text": "The tricky part is coming back onto the UI thread when the background work finishes. Your transcription thread has to somehow trigger the UI work to be done on the UI thread.<p>It seems the way to do it in Qt is with signals and slots, emitting a signal from your QThread and binding it to a slot in the UI thread, making sure to specify a &quot;queued connection&quot; [1]. There&#x27;s also a lower-level postEvent method [2] but people disagree [3] on whether that&#x27;s OK to call from a regular Python thread or has to be called from a QThread.<p>So I would try doing it with Qt&#x27;s thread classes, not with concurrent.futures.<p>[1] <a href=\"https:&#x2F;&#x2F;doc.qt.io&#x2F;qt-5&#x2F;threads-synchronizing.html#high-level-event-qu;eues\" rel=\"nofollow\">https:&#x2F;&#x2F;doc.qt.io&#x2F;qt-5&#x2F;threads-synchronizing.html#high-level...</a><p>[2] <a href=\"https:&#x2F;&#x2F;doc.qt.io&#x2F;qt-6&#x2F;qcoreapplication.html#postEvent\" rel=\"nofollow\">https:&#x2F;&#x2F;doc.qt.io&#x2F;qt-6&#x2F;qcoreapplication.html#postEvent</a><p>[3] <a href=\"https:&#x2F;&#x2F;www.mail-archive.com&#x2F;pyqt@riverbankcomputing.com&#x2F;msg16066.html\" rel=\"nofollow\">https:&#x2F;&#x2F;www.mail-archive.com&#x2"
-  },
-  {
-    "id": 44075783,
-    "type": "comment",
-    "by": "kragen",
-    "time": 1748028309,
-    "parent": 44030303,
-    "text": "My typical experience is about 40\u00d7."
-  },
-  {
-    "id": 44011632,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747449575,
-    "parent": 44011521,
-    "text": "I might do that. It\u2019s nothing I\u2019ve thought about in depth, just an occasionally recurring idea that bugs me every now and then."
-  },
-  {
-    "id": 44016148,
-    "type": "comment",
-    "by": "westurner",
-    "time": 1747507237,
-    "parent": 44016081,
-    "text": "Also, there&#x27;s a recent proposal to add explicit resource management to JS: &quot;JavaScript&#x27;s New Superpower: Explicit Resource Management&quot; \n<a href=\"https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=44012227\">https:&#x2F;&#x2F;news.ycombinator.com&#x2F;item?id=44012227</a>"
-  },
-  {
-    "id": 44010029,
-    "type": "comment",
-    "by": "nothrabannosir",
-    "time": 1747431815,
-    "parent": 44007297,
-    "text": "Honestly I kept it vague because I didn&#x27;t actually know so your call-out was totally valid. I know it better now than without your clarification so thanks :+1:"
-  },
-  {
-    "id": 44008137,
-    "type": "comment",
-    "by": "dhruvrajvanshi",
-    "time": 1747418020,
-    "parent": 44006925,
-    "text": "&gt; Oracle doesn\u2019t make little mistakes that accidentally harm the competition while helping themselves. No, they\u2019ll look you in the eye and explain that they\u2019re mugging you while they take your wallet. It\u2019s kind of refreshingly honest in its own way.<p>Fucking hell bud :D"
-  },
-  {
-    "id": 44008270,
-    "type": "comment",
-    "by": "igouy",
-    "time": 1747418863,
-    "parent": 44006736,
-    "text": "We say the context has breaking changes.<p>We say the context is not backwards compatible."
-  },
-  {
-    "id": 44029032,
-    "type": "comment",
-    "by": "dotancohen",
-    "time": 1747657171,
-    "parent": 44010633,
-    "text": "Terrific, thank you. You&#x27;ve put me on the right track."
-  },
-  {
-    "id": 44009881,
-    "type": "comment",
-    "by": "kstrauser",
-    "time": 1747430254,
-    "parent": 44008137,
-    "text": "Tell me I&#x27;m wrong! :D"
-  },
-  {
-    "id": 44015256,
-    "type": "comment",
-    "by": "smilliken",
-    "time": 1747498109,
-    "parent": 44008270,
-    "text": "Can you see how this comes off as a pedantic difference? If I ran a program 10 years ago and it worked, then run it today and it doesn&#x27;t work, we say the program is broken and needs to be updated. We don&#x27;t say the world around it is broken and needs to revert back to its original state."
-  },
-  {
-    "id": 44016430,
-    "type": "comment",
-    "by": "igouy",
-    "time": 1747510461,
-    "parent": 44015256,
-    "text": "We do revert back to a previous context if that seems practical: revert back to a previous compiler or library version."
   }
 ]

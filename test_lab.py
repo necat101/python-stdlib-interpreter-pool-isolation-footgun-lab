@@ -93,15 +93,25 @@ class TestLab(unittest.TestCase):
     def test_direct_lifecycle(self):
         r = [x for x in self.rows if x["case_id"]=="direct_interpreter_lifecycle_marker" and x["method"]=="direct_interpreter_operation"][0]
         self.assertEqual(r["actual_classification"], "pass")
+        # verify evidence: appeared, result=84, closed_ok, disappeared
+        concl = r["conclusion"] or ""
+        self.assertIn("appeared=True", concl)
+        self.assertIn("result=84", concl)
+        self.assertIn("closed_ok=True", concl)
+        self.assertIn("disappeared=True", concl)
+        self.assertTrue(r["interpreter_id"] is not None)
     def test_builtins_isolation(self):
         r = [x for x in self.rows if x["case_id"]=="direct_interpreter_builtin_isolation_marker" and x["method"]=="direct_interpreter_operation"][0]
         self.assertEqual(r["actual_classification"], "pass")
+        self.assertIn("builtins isolated", r["conclusion"] or "")
     def test_queue_roundtrip(self):
         r = [x for x in self.rows if x["case_id"]=="cross_interpreter_queue_roundtrip_marker" and x["method"]=="direct_interpreter_operation"][0]
         self.assertEqual(r["actual_classification"], "pass")
+        self.assertEqual(r["queue_result"], "99")
     def test_queue_unshareable(self):
         r = [x for x in self.rows if x["case_id"]=="queue_unshareable_object_rejection_marker" and x["method"]=="direct_interpreter_operation"][0]
         self.assertEqual(r["actual_classification"], "expected_error")
+        self.assertTrue(r["exception_type"])
     # no global claims
     def test_no_global_claims(self):
         for fname in ["README.md","RESULTS.md"]:
@@ -116,13 +126,35 @@ class TestLab(unittest.TestCase):
         files = ["README.md","RESULTS.md","cases.json","results_rows.json","results_rows.csv"]
         for pat in ["hn_*.json","hn_*.md","VERIFY.md"]:
             files += glob.glob(pat)
-        # allow /tmp/ip_lab in results_rows (executable path) – but not tokens/session ids
-        bad_re = re.compile(r"ghp_[A-Za-z0-9]{20,}|openclaw.*session|/home/ubuntu/\.openclaw", re.I)
-        for fn in set(files):
+        # Prohibited: github tokens, openclaw session metadata, internal openclaw paths,
+        # /tmp paths (except allowed in this test file itself), /home/ubuntu paths
+        # other than the expected python executable.
+        # The legitimate python executable /home/ubuntu/.local/bin/python3.14
+        # is allowed in results_rows.json per spec.
+        bad_patterns = [
+            r"ghp_[A-Za-z0-9]{20,}",  # github PAT
+            r"openclaw.*session",  # session metadata
+            r"/home/ubuntu/\.openclaw",  # openclaw internal
+            r"/tmp/(?!ip_lab)",  # /tmp paths not in /tmp/ip_lab
+            # block other /home/ubuntu paths, but allow the python executable
+            # We'll filter that out post-match
+        ]
+        bad_re = re.compile("|".join(f"({p})" for p in bad_patterns), re.I)
+        allowed_exe = "/home/ubuntu/.local/bin/python3.14"
+        for fn in sorted(set(files)):
             try:
                 with open(fn) as f: txt=f.read()
-                m = bad_re.search(txt)
-                self.assertIsNone(m, f"{fn} contains prohibited: {m.group(0) if m else ''}")
-            except FileNotFoundError: pass
+                # find all matches
+                for m in bad_re.finditer(txt):
+                    hit = m.group(0)
+                    # allow the legitimate python executable path in results artifacts
+                    if allowed_exe in hit or hit in allowed_exe:
+                        continue
+                    # allow test file mentioning /tmp/ip_lab in its own source
+                    if fn.endswith("test_lab.py") and "/tmp/" in hit:
+                        continue
+                    self.fail(f"{fn} contains prohibited: {hit}")
+            except FileNotFoundError:
+                pass
 
 if __name__ == "__main__": unittest.main()

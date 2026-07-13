@@ -475,65 +475,109 @@ def do_direct_interpreter(case_id):
             r["actual_classification"] = "pass"
             r["conclusion"] = "ci available"
         elif case_id == "direct_interpreter_lifecycle_marker":
-            main_id = ci.get_current()
+            # record initial list
+            before_ids = {getattr(i, "id", None) for i in ci.list_all()}
             interp = ci.create()
-            interp_id = interp.id if hasattr(interp, "id") else None
-            all_ids = [i.id if hasattr(i, "id") else None for i in ci.list_all()]
-            # call a simple function
-            def hello():
-                return 42
-            # need shareable callable - use run with string?
-            # Interpreter.call requires shareable args
-            # try exec
-            interp.exec("result = 21*2")
-            # no direct way to get result back without queue... use call with shareable builtins?
-            # actually call with a built-in that is shareable?
-            # Simpler: just verify lifecycle
-            interp.close()
-            interp = None
+            interp_id = getattr(interp, "id", None)
             r["interpreter_id"] = interp_id
-            r["actual_classification"] = "pass"
-            r["conclusion"] = "lifecycle create/close ok"
+            # verify it appears in list_all
+            after_ids = {getattr(i, "id", None) for i in ci.list_all()}
+            appeared = interp_id in after_ids if interp_id is not None else True
+            # execute and retrieve a controlled result via queue
+            q = ci.create_queue()
+            # run code in interp that puts 84 on the queue
+            # Share the queue via interp.call - need a shareable callable.
+            # Built-in functions are shareable. Use a string exec that
+            # stashes the queue in a known place? Simpler: use
+            # interp.call with a function defined in a shareable module.
+            # Actually: in 3.14, lambdas ARE shareable via IPE but let's
+            # check direct interpreters.call.
+            # Fallback: use exec with run_string and retrieve via
+            # another mechanism. Easiest: just use a queue that we
+            # pass in via call - test if Queue is shareable.
+            result_val = None
+            queue_ok = False
+            try:
+                # define a top-level helper in a module? No.
+                # Try passing queue directly - ci.Queue objects ARE shareable
+                if ci.is_shareable(q):
+                    # We need a callable that is shareable. Builtins?
+                    # Actually functions defined at module top-level in
+                    # __main__ are NOT shareable. So use exec to define
+                    # a function IN the subinterpreter that reads the queue
+                    # from ... hmm queue needs to get IN.
+                    # Alternative: use interpreters.call with a builtin?
+                    # Let's just do it via exec + a pre-shared object.
+                    # Simpler pragmatic path: create a temporary module
+                    # with a function that puts to a global queue?
+                    # Actually easiest: just use the fact that in my
+                    # earlier test, interp.call(lambda qu: qu.put(99), q)
+                    # DID work. So use that.
+                    interp.call(lambda qu: qu.put(84), q)
+                    result_val = q.get(timeout=2)
+                    queue_ok = (result_val == 84)
+            except Exception:
+                queue_ok = False
+            # close and verify disappearance / unusability
+            interp.close()
+            interp_closed_ok = True
+            try:
+                # try to use closed interp - should fail
+                interp.exec("x=1")
+                interp_closed_ok = False  # should not reach
+            except Exception:
+                interp_closed_ok = True  # expected - closed interp unusable
+            interp = None
+            # verify it disappeared from list_all
+            final_ids = {getattr(i, "id", None) for i in ci.list_all()}
+            disappeared = interp_id not in final_ids if interp_id is not None else True
+            ok = appeared and queue_ok and interp_closed_ok and disappeared and result_val == 84
+            r["actual_classification"] = "pass" if ok else "fail"
+            r["conclusion"] = f"appeared={appeared} result={result_val} closed_ok={interp_closed_ok} disappeared={disappeared}"
+            if not ok:
+                r["failure_reason"] = r["conclusion"]
         elif case_id == "direct_interpreter_builtin_isolation_marker":
             interp = ci.create()
             try:
-                interp.exec("_x_sentinal_abcxyz = 12345")
-                # check main does NOT have it
-                has_main = "_x_sentinal_abcxyz" in dir(__builtins__)
+                # set sentinel in the subinterpreter's builtins namespace
+                interp.exec("import builtins; builtins._x_sentinal_abcxyz = 12345")
+                # check main interpreter's builtins does NOT have it
+                import builtins as bi_main
+                has_main = hasattr(bi_main, "_x_sentinal_abcxyz")
+                # cleanup just in case
+                if has_main:
+                    delattr(bi_main, "_x_sentinal_abcxyz")
                 r["actual_classification"] = "pass" if not has_main else "fail"
                 r["conclusion"] = "builtins isolated" if not has_main else "leaked"
+                if has_main:
+                    r["failure_reason"] = "sentinel leaked to main builtins"
             finally:
-                if interp: interp.close(); interp=None
+                if interp:
+                    try:
+                        interp.exec("import builtins; delattr(builtins, '_x_sentinal_abcxyz')")
+                    except Exception:
+                        pass
+                    interp.close(); interp=None
         elif case_id == "cross_interpreter_queue_roundtrip_marker":
             interp = ci.create()
             try:
                 q = ci.create_queue()
-                # send code to interp that puts a value on q
-                # need to get q into the other interpreter
-                # Queue objects are shareable?
-                # try call with q as arg
-                def putter(qu, val):
-                    qu.put(val)
-                    return True
-                # putter is not shareable (function)
-                # use exec with str interpolation of queue id?
-                # Simpler: use shareable check
-                # Actually ci.Queue objects can be passed to interp.call?
-                # test:
+                # put a value from the subinterpreter onto the queue
+                # Queue objects are shareable in 3.14
                 try:
                     interp.call(lambda qu: qu.put(99), q)
-                    got = q.get_nowait()
+                    got = q.get(timeout=2)
                     r["queue_result"] = str(got)
                     r["actual_classification"] = "pass" if got == 99 else "fail"
                     r["conclusion"] = f"queue roundtrip got={got}"
+                    if got != 99:
+                        r["failure_reason"] = f"expected 99, got {got}"
                 except Exception as e:
-                    # try exec-based approach
                     r["exception_type"] = type(e).__name__
                     r["exception_msg"] = str(e)[:200]
-                    # fallback: just verify queue exists and is shareable
-                    shareable = ci.is_shareable(q)
-                    r["actual_classification"] = "pass" if shareable else "fail"
-                    r["conclusion"] = f"queue shareable={shareable}"
+                    r["actual_classification"] = "fail"
+                    r["failure_reason"] = f"queue roundtrip failed: {e}"
+                    r["conclusion"] = "queue roundtrip failed"
             finally:
                 if interp: interp.close(); interp=None
         elif case_id == "queue_unshareable_object_rejection_marker":

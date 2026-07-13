@@ -14,12 +14,12 @@ This repository tests interpreter isolation, serialization boundaries, mutable s
 - Methods: 5 (`inspect_api`, `thread_pool_comparison`, `interpreter_pool_operation`, `direct_interpreter_operation`, `hn_context_observation`)
 - Rows: 100
 - Classifications: pass 32, expected_error 3, local_observation 2, context_only 20, not_applicable 43, fail 0
-- Thread-pool: 11 pass
-- Interpreter-pool: 9 pass, 2 expected_error (lock serialization rejection, initializer failure)
-- Direct-interpreter: 3 pass, 1 expected_error (queue unshareable object)
+- Thread-pool (behavioral): 11 pass
+- Interpreter-pool (behavioral): 9 pass, 2 expected_error (lock serialization rejection, initializer failure)
+- Direct-interpreter (behavioral): 3 pass, 1 expected_error (queue unshareable object)
 - Preprocessing token-count: serial == thread_pool == interpreter_pool
 
-See `RESULTS.md` for full counts.
+See `RESULTS.md` for full per-method counts including API availability markers (Thread-pool: 11 pass, Interpreter-pool: 11 pass, Direct-interpreter: 6 pass).
 
 ## What this lab does NOT prove
 
