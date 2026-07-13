@@ -1,0 +1,202 @@
+[
+  {
+    "id": "python_version_marker",
+    "expect": {
+      "inspect_api": "pass",
+      "thread_pool_comparison": "local_observation",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "isolated_interpreters_support_marker",
+    "expect": {
+      "inspect_api": "pass",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "interpreter_pool_executor_available_marker",
+    "expect": {
+      "inspect_api": "pass",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "concurrent_interpreters_available_marker",
+    "expect": {
+      "inspect_api": "pass",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "simple_callable_roundtrip_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "map_input_order_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "mutable_argument_copy_boundary_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "main_module_state_isolation_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "worker_module_state_persistence_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "initializer_state_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "lambda_serialization_rejection_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "lock_serialization_rejection_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "task_exception_preservation_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "initializer_failure_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "direct_interpreter_lifecycle_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "direct_interpreter_builtin_isolation_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "cross_interpreter_queue_roundtrip_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "queue_unshareable_object_rejection_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "version_skip",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "tiny_token_count_preprocessing_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "pass",
+      "interpreter_pool_operation": "version_skip",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  },
+  {
+    "id": "no_global_speedup_security_or_ml_claim_marker",
+    "expect": {
+      "inspect_api": "not_applicable",
+      "thread_pool_comparison": "not_applicable",
+      "interpreter_pool_operation": "not_applicable",
+      "direct_interpreter_operation": "not_applicable",
+      "hn_context_observation": "context_only"
+    }
+  }
+]
