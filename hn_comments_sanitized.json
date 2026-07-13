@@ -1,12 +1,5 @@
 [
   {
-    "id": 44003445,
-    "type": "story",
-    "by": "rbanffy",
-    "time": 1747388551,
-    "parent": null
-  },
-  {
     "id": 44004897,
     "type": "comment",
     "by": "sgarland",
@@ -111,35 +104,12 @@
     "text": "I thought this was mostly a solved problem.<p><pre><code>  Fibers\n  Green threads\n  Coroutines\n  Actors\n  Queues (eg GCD)\n  \u2026\n</code></pre>\nBasically you need to reason about what your thing will do.<p>Separate concerns. Each thing is a server (microservice?) with its own backpressure.<p>They schedule jobs on a queue.<p>The jobs come with some context, I don\u2019t care if it\u2019s a closure on the heap or a fiber with a stack or whatever. Javascript being single threaded with promises wastefully unwinds the entire stack for each tick instead of saving context. With callbacks you can save context in closures. But even that is pretty fast.<p>Anyway then you can just load-balance the context across machines. Easiest approach is just to have server affinity for each job. The servers just contain a cache of the data so if the servers fail then their replacements can grab the job from an indexed database. The insertion and the lookup is O(log n) each. And jobs are deleted when done (maybe leaving behind a small log that is compacted) so there are no memory leaks.<p>Oh yeah and whatever you store durably should be sharded and indexed properly, so practicalkt unlimited amounts can be stored. Avail"
   },
   {
-    "id": 44005881,
-    "type": "comment",
-    "by": null,
-    "time": 1747405371,
-    "parent": 44003445
-  },
-  {
     "id": 44011534,
     "type": "comment",
     "by": "yunnpp",
     "time": 1747448099,
     "parent": 44003445,
     "text": "In 2025, 20 years since multi-core is a thing on consumer devices. Great progress, guys. Can&#x27;t wait for what the Python community has up its sleeves next."
-  },
-  {
-    "id": 44006220,
-    "type": "comment",
-    "by": "gitroom",
-    "time": 1747407213,
-    "parent": 44003445,
-    "text": "[dead]"
-  },
-  {
-    "id": 44003999,
-    "type": "comment",
-    "by": "GarrickDrgn",
-    "time": 1747394400,
-    "parent": 44003445,
-    "text": "[flagged]"
   },
   {
     "id": 44006653,
@@ -230,22 +200,6 @@
     "text": "shared memory only works on dedicated hardware.<p>if you&#x27;re running in something like AWS fargate, there is no shared memory. have to use the network and file system which adds a lot of latency, way more than spawning a process.<p>copying processes through fork is a whole different problem.<p>green threads and an actor model will get you much further in my experience."
   },
   {
-    "id": 44006664,
-    "type": "comment",
-    "by": "pyronik19",
-    "time": 1747409413,
-    "parent": 44004897,
-    "text": "[dead]"
-  },
-  {
-    "id": 44004956,
-    "type": "comment",
-    "by": "crabbone",
-    "time": 1747400452,
-    "parent": 44004897,
-    "text": "[flagged]"
-  },
-  {
     "id": 44004334,
     "type": "comment",
     "by": "rfoo",
@@ -300,13 +254,6 @@
     "time": 1747406437,
     "parent": 44004601,
     "text": "That\u2019s unfortunate but I called it when people were claiming that Microsoft had committed to this effort for the long term."
-  },
-  {
-    "id": 44005777,
-    "type": "comment",
-    "by": null,
-    "time": 1747404806,
-    "parent": 44004601
   },
   {
     "id": 44004845,
@@ -413,13 +360,6 @@
     "text": "What reliance did you have in mind? All sorts of calls in Python can release the GIL, so you already need locking, and there are race conditions just like in most languages. It&#x27;s not like JS where your code is guaranteed to run in order until you &quot;await&quot; something.<p>I don&#x27;t fully understand the challenge with removing it, but thought it was something about C extensions, not something most users have to directly worry about."
   },
   {
-    "id": 44004203,
-    "type": "comment",
-    "by": null,
-    "time": 1747395896,
-    "parent": 44003888
-  },
-  {
     "id": 44003936,
     "type": "comment",
     "by": "NortySpock",
@@ -490,13 +430,6 @@
     "time": 1747408698,
     "parent": 44005463,
     "text": "I haven\u2019t been using it that much longer than you, and I agree with most of what you\u2019re saying, but I\u2019d characterize it differently.<p>Python has a lot of solid workarounds for avoid threading because until now Python threading has absolutely sucked. I had naively tried to use it to make a CPU-bound workload twice as fast and soon realized the implications of the GIL, so I threw all that code away and made it multiprocessing instead. That sucked in its own way because I had to serialize lots of large data structures to pass around, so 2x the cores got me about 1.5x the speed and a warmer server room.<p>I would <i>love</i> to have good threading support in Python. It\u2019s not always the right solution, but there are a lot of circumstances where it\u2019d be absolutely peachy, and today we\u2019re faking our way around its absence with whole playbooks of alternative approaches to avoid the elephant in the room.<p>But yes, use async when it makes sense. It\u2019s a thing of beauty. (Yes, Glyph, we hear the \u201cI told you so!\u201d You were right.)"
-  },
-  {
-    "id": 44004580,
-    "type": "comment",
-    "by": null,
-    "time": 1747398275,
-    "parent": 44004459
   },
   {
     "id": 44004469,
@@ -891,13 +824,6 @@
     "text": "Yes, because I am quite certain someone without anything better to do would correct me on that.<p>For me Facebook will always be Facebook, and Twitter will always be Twitter."
   },
   {
-    "id": 44005007,
-    "type": "comment",
-    "by": null,
-    "time": 1747400722,
-    "parent": 44004800
-  },
-  {
     "id": 44005797,
     "type": "comment",
     "by": "dkarl",
@@ -928,13 +854,6 @@
     "time": 1747469439,
     "parent": 44004251,
     "text": "&gt; Nothing unless you start using threads.<p>Isn&#x27;t it also promises&#x2F;futures? They might start threads implicitly."
-  },
-  {
-    "id": 44004471,
-    "type": "comment",
-    "by": null,
-    "time": 1747397556,
-    "parent": 44004251
   },
   {
     "id": 44013062,
@@ -2135,13 +2054,6 @@
     "time": 1747434314,
     "parent": 44008294,
     "text": "Ah, I forgot capnproto doesn&#x27;t let you edit a serialized proto in-memory, it&#x27;s read-only. In theory this should be possible as long as you&#x27;re not changing the length of anything, but I&#x27;m not surprised such trickery is unsupported.<p>So this doesn&#x27;t seem like a versatile solution for sharing data structs between two Python processes. You&#x27;re gonna have to reserialize the whole thing if one side wants to edit, which is basically copying."
-  },
-  {
-    "id": 44010278,
-    "type": "comment",
-    "by": null,
-    "time": 1747434027,
-    "parent": 44008294
   },
   {
     "id": 44011868,

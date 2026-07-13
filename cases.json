@@ -4,8 +4,8 @@
     "expect": {
       "inspect_api": "pass",
       "thread_pool_comparison": "local_observation",
-      "interpreter_pool_operation": "version_skip",
-      "direct_interpreter_operation": "version_skip",
+      "interpreter_pool_operation": "local_observation",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -14,8 +14,8 @@
     "expect": {
       "inspect_api": "pass",
       "thread_pool_comparison": "not_applicable",
-      "interpreter_pool_operation": "version_skip",
-      "direct_interpreter_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -24,7 +24,7 @@
     "expect": {
       "inspect_api": "pass",
       "thread_pool_comparison": "not_applicable",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -35,7 +35,7 @@
       "inspect_api": "pass",
       "thread_pool_comparison": "not_applicable",
       "interpreter_pool_operation": "not_applicable",
-      "direct_interpreter_operation": "version_skip",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -44,8 +44,8 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
-      "direct_interpreter_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
+      "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
   },
@@ -54,7 +54,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -64,7 +64,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -74,8 +74,8 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
-      "direct_interpreter_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
+      "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
   },
@@ -84,7 +84,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -94,7 +94,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -104,7 +104,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -114,7 +114,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "expected_error",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -124,7 +124,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -134,7 +134,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "expected_error",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
@@ -145,7 +145,7 @@
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "not_applicable",
       "interpreter_pool_operation": "not_applicable",
-      "direct_interpreter_operation": "version_skip",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -155,7 +155,7 @@
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "not_applicable",
       "interpreter_pool_operation": "not_applicable",
-      "direct_interpreter_operation": "version_skip",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -165,7 +165,7 @@
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "not_applicable",
       "interpreter_pool_operation": "not_applicable",
-      "direct_interpreter_operation": "version_skip",
+      "direct_interpreter_operation": "pass",
       "hn_context_observation": "context_only"
     }
   },
@@ -175,7 +175,7 @@
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "not_applicable",
       "interpreter_pool_operation": "not_applicable",
-      "direct_interpreter_operation": "version_skip",
+      "direct_interpreter_operation": "expected_error",
       "hn_context_observation": "context_only"
     }
   },
@@ -184,7 +184,7 @@
     "expect": {
       "inspect_api": "not_applicable",
       "thread_pool_comparison": "pass",
-      "interpreter_pool_operation": "version_skip",
+      "interpreter_pool_operation": "pass",
       "direct_interpreter_operation": "not_applicable",
       "hn_context_observation": "context_only"
     }
