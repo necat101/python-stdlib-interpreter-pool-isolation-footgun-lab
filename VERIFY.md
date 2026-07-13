@@ -70,7 +70,7 @@ RESULTS.md generated from rows: yes
 
 No interpreter or executor left running: confirmed
 
-Artifact cleanliness: scanned README.md, RESULTS.md, cases.json, results_rows.json, results_rows.csv, hn_comments_sanitized.json, hn_thread_evidence.md, VERIFY.md – no github tokens, openclaw session metadata, or prohibited /home/ubuntu / /tmp paths (legitimate python executable path `/home/ubuntu/.local/bin/python3.14` allowed per spec).
+Artifact cleanliness: scanned README.md, RESULTS.md, cases.json, results_rows.json, results_rows.csv, hn_comments_sanitized.json, hn_thread_evidence.md, VERIFY.md – no github tokens, session metadata, or prohibited /home/ubuntu / /tmp paths (legitimate python executable path `/home/ubuntu/.local/bin/python3.14` allowed per spec).
 
 HN evidence: 163 relevant comments retained, dead/flagged/irrelevant entries (snake illustrations, company politics, off-topic rants) removed.
 
